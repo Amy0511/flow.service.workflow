@@ -1,7 +1,6 @@
 package io.boomerang.scenarios;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.times;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -11,6 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,7 @@ import io.boomerang.tests.IntegrationTests;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("local")
 @WithMockUser(roles = {"admin"})
 @WithUserDetails("mdroy@us.ibm.com")
 class ApproveExecuteTests extends IntegrationTests {
@@ -58,13 +58,13 @@ class ApproveExecuteTests extends IntegrationTests {
     String id = activity.getId();
     Thread.sleep(5000);
     FlowActivity waitingAprpoval = this.checkWorkflowActivity(id);
-    assertEquals(TaskStatus.inProgress, waitingAprpoval.getStatus());
+    Assertions.assertEquals(TaskStatus.inProgress, waitingAprpoval.getStatus());
     List<Action> approvals = this.getApprovals();
     this.approveWorkflow(true, approvals.get(0).getId());
 
     Thread.sleep(5000);
     FlowActivity finalActivity = this.checkWorkflowActivity(id);
-    assertEquals(TaskStatus.completed, finalActivity.getStatus());
+    Assertions.assertEquals(TaskStatus.completed, finalActivity.getStatus());
     mockServer.verify();
   }
 

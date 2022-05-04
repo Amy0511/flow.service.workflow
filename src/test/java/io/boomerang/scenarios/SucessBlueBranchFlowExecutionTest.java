@@ -1,8 +1,6 @@
 package io.boomerang.scenarios;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.client.ExpectedCount.manyTimes;
 import static org.springframework.test.web.client.ExpectedCount.times;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
@@ -15,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +35,7 @@ import io.boomerang.tests.IntegrationTests;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("local")
 @WithMockUser(roles = {"admin"})
 @WithUserDetails("mdroy@us.ibm.com")
 public class SucessBlueBranchFlowExecutionTest extends IntegrationTests {
@@ -55,8 +54,8 @@ public class SucessBlueBranchFlowExecutionTest extends IntegrationTests {
     String id = activity.getId();
     Thread.sleep(10000);
     FlowActivity finalActivity = this.checkWorkflowActivity(id);
-     assertEquals(TaskStatus.completed, finalActivity.getStatus());
-     assertNotNull(finalActivity.getDuration());
+    Assertions.assertEquals(TaskStatus.completed, finalActivity.getStatus());
+    Assertions.assertNotNull(finalActivity.getDuration());
     mockServer.verify();
 
 
@@ -70,12 +69,12 @@ public class SucessBlueBranchFlowExecutionTest extends IntegrationTests {
     TaskExecutionResponse switchStep =
         steps.stream().filter(e -> e.getTaskName().equals("Switch 1")).findFirst().orElse(null);
 
-     assertEquals(TaskStatus.completed, executeShell1.getFlowTaskStatus());
-     assertEquals(TaskStatus.skipped, executeShell2.getFlowTaskStatus());
-     assertEquals(TaskStatus.completed, executeShell3.getFlowTaskStatus());
-     assertEquals(TaskStatus.completed, switchStep.getFlowTaskStatus());
+    Assertions.assertEquals(TaskStatus.completed, executeShell1.getFlowTaskStatus());
+    Assertions.assertEquals(TaskStatus.skipped, executeShell2.getFlowTaskStatus());
+    Assertions.assertEquals(TaskStatus.completed, executeShell3.getFlowTaskStatus());
+    Assertions.assertEquals(TaskStatus.completed, switchStep.getFlowTaskStatus());
 
-     assertEquals("blue", switchStep.getSwitchValue());
+    Assertions.assertEquals("blue", switchStep.getSwitchValue());
   }
 
   @Override

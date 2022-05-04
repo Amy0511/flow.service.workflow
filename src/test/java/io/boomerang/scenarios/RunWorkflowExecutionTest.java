@@ -1,8 +1,6 @@
 package io.boomerang.scenarios;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.client.ExpectedCount.times;
@@ -15,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -40,7 +39,7 @@ import io.boomerang.tests.IntegrationTests;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@ActiveProfiles("local")
 @WithMockUser(roles = {"admin"})
 @WithUserDetails("mdroy@us.ibm.com")
 @Disabled
@@ -69,8 +68,8 @@ public class RunWorkflowExecutionTest extends IntegrationTests {
     String id = activity.getActivityId();
     Thread.sleep(5000);
     FlowActivity finalActivity = this.checkWorkflowActivity(id);
-    assertEquals(TaskStatus.completed, finalActivity.getStatus());
-    assertNotNull(finalActivity.getDuration());
+    Assertions.assertEquals(TaskStatus.completed, finalActivity.getStatus());
+    Assertions.assertNotNull(finalActivity.getDuration());
     mockServer.verify();
     verify(taskClient).submitWebhookEvent(ArgumentMatchers.any(RequestFlowExecution.class));
   }

@@ -1,9 +1,10 @@
 package io.boomerang.misc;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +28,7 @@ public class ModelConversionV5Test {
     WorkflowRevision convertedRevision = ModelConverterV5.convertToRestModel(entity);
 
     String restString = objectMapper.writeValueAsString(convertedRevision);
-    assertNotNull(restString);
+    Assertions.assertNotNull(restString);
     System.out.println(restString);
 
   }
@@ -44,7 +45,7 @@ public class ModelConversionV5Test {
     RevisionEntity convertedRevision = ModelConverterV5.convertToEntityModel(revision);
 
     String restString = objectMapper.writeValueAsString(convertedRevision);
-    assertNotNull(restString);
+    Assertions.assertNotNull(restString);
     System.out.println(restString);
 
   }
@@ -56,12 +57,12 @@ public class ModelConversionV5Test {
     ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     WorkflowRevision revision = objectMapper.readValue(json, WorkflowRevision.class);
     RevisionEntity convertedRevision = ModelConverterV5.convertToEntityModel(revision);
-    assertNotNull(convertedRevision);
+    Assertions.assertNotNull(convertedRevision);
 
     WorkflowRevision rest = ModelConverterV5.convertToRestModel(convertedRevision);
 
     String restString = objectMapper.writeValueAsString(rest);
-    assertNotNull(rest);
+    Assertions.assertNotNull(rest);
     System.out.println(restString);
   }
 
@@ -73,12 +74,12 @@ public class ModelConversionV5Test {
     ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     WorkflowRevision revision = objectMapper.readValue(json, WorkflowRevision.class);
     RevisionEntity convertedRevision = ModelConverterV5.convertToEntityModel(revision);
-    assertNotNull(convertedRevision);
+    Assertions.assertNotNull(convertedRevision);
 
     WorkflowRevision rest = ModelConverterV5.convertToRestModel(convertedRevision);
 
     String restString = objectMapper.writeValueAsString(rest);
-    assertNotNull(rest);
+    Assertions.assertNotNull(rest);
     System.out.println(restString);
   }
 
@@ -89,11 +90,11 @@ public class ModelConversionV5Test {
     ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     WorkflowRevision revision = objectMapper.readValue(json, WorkflowRevision.class);
     RevisionEntity convertedRevision = ModelConverterV5.convertToEntityModel(revision);
-    assertNotNull(convertedRevision);
+    Assertions.assertNotNull(convertedRevision);
 
 
     String jsonString = objectMapper.writeValueAsString(convertedRevision);
-    assertNotNull(jsonString);
+    Assertions.assertNotNull(jsonString);
 
     System.out.println("*****************");
     System.out.println("Before");
@@ -113,11 +114,11 @@ public class ModelConversionV5Test {
     ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     WorkflowRevision revision = objectMapper.readValue(json, WorkflowRevision.class);
     RevisionEntity convertedRevision = ModelConverterV5.convertToEntityModel(revision);
-    assertNotNull(convertedRevision);
+    Assertions.assertNotNull(convertedRevision);
 
 
     String jsonString = objectMapper.writeValueAsString(convertedRevision);
-    assertNotNull(jsonString);
+    Assertions.assertNotNull(jsonString);
 
     System.out.println("*****************");
     System.out.println("Before");

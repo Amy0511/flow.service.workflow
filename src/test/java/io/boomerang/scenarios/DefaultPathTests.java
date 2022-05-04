@@ -1,8 +1,6 @@
 package io.boomerang.scenarios;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.client.ExpectedCount.times;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -12,6 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ import io.boomerang.tests.MongoConfig;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {Application.class, MongoConfig.class})
-@ActiveProfiles("test")
+@ActiveProfiles("local")
 @Disabled
 public class DefaultPathTests extends IntegrationTests {
 
@@ -50,7 +49,7 @@ public class DefaultPathTests extends IntegrationTests {
     Thread.sleep(5000);
 
     FlowActivity waitingAprpoval = this.checkWorkflowActivity(id);
-    assertEquals(TaskStatus.inProgress, waitingAprpoval.getStatus());
+    Assertions.assertEquals(TaskStatus.inProgress, waitingAprpoval.getStatus());
     List<Action> approvals = this.getApprovals();
     this.approveWorkflow(true, approvals.get(0).getId());
 
@@ -61,7 +60,7 @@ public class DefaultPathTests extends IntegrationTests {
 
     mockServer.verify();
 
-    assertNotNull(activit2);
+    Assertions.assertNotNull(activit2);
 
   }
 
